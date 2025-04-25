@@ -17,6 +17,8 @@ import com.kaique.lojaVirtual.domain.entity.PessoaJuridica;
 import com.kaique.lojaVirtual.domain.entity.Usuario;
 import com.kaique.lojaVirtual.domain.exceptions.EntidadeExistenteException;
 import com.kaique.lojaVirtual.domain.exceptions.EntidadeNaoEncontradaException;
+import com.kaique.lojaVirtual.domain.kafka.mapper.Emailmapper;
+import com.kaique.lojaVirtual.domain.kafka.producer.EmailProducer;
 import com.kaique.lojaVirtual.domain.repositories.AcessoRepository;
 import com.kaique.lojaVirtual.domain.repositories.UsuarioRepository;
 
@@ -37,6 +39,9 @@ public class UsuarioService {
 
 	@Autowired
 	private TemplateEngine templateEngine;
+	
+	@Autowired
+	private EmailProducer producer;
 
 	@Transactional
 	public Usuario salvaUser(UsuarioRequestDto dto) {
@@ -92,9 +97,12 @@ public class UsuarioService {
 
 		emailDTO.setBody(htmlContent);
 
-		emailService.sendEmail(emailDTO);
+		usuario = repository.save(usuario);
+		
+		/*usa o kafka para enviar os email*/
+		producer.enviarMensagem(Emailmapper.toAvro(emailDTO));
 
-		return repository.save(usuario);
+		return usuario;
 	}
 
 	protected Usuario converteUser(UsuarioRequestDto dto) {
