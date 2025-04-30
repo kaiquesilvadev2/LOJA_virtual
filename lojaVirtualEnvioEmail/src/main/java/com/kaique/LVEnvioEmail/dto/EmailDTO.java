@@ -4,15 +4,19 @@ import jakarta.validation.constraints.NotBlank;
 
 public class EmailDTO {
 
-    @NotBlank
-    //@Email
-    private String to;
-    
-    @NotBlank
-    private String subject;
-    
-    @NotBlank
-    private String body;
+	@NotBlank
+	// @Email
+	private String to;
+
+	@NotBlank
+	private String subject;
+
+	@NotBlank
+	private String body;
+
+	public EmailDTO() {
+		super();
+	}
 
 	public String getTo() {
 		return to;
@@ -37,4 +41,5 @@ public class EmailDTO {
 	public void setBody(String body) {
 		this.body = body;
 	}
+
 }

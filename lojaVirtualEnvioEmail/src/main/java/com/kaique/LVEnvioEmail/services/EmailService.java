@@ -22,13 +22,6 @@ public class EmailService {
 	@Autowired
 	private JavaMailSender emailSender;
 
-	/*
-	 * @Async é utilizada para marcar métodos que devem ser executados de maneira
-	 * assíncrona. Quando um método anotado com @Async é chamado, ele é executado em
-	 * uma thread separada, permitindo que o fluxo principal continue sem esperar a
-	 * conclusão do método assíncrono.
-	 */
-	@Async
 	public void sendEmail(EmailDTO obj) {
 		try {
 			// Cria uma mensagem MIME para e-mails HTML
